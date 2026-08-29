@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#12131A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Mental Energy Heatmap</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app">
+        <div class="sticky-header" id="stickyHeader">
+            <header class="topbar">
+                <img src="icon.svg" alt="" class="logo" onerror="this.style.display='none'">
+                <h1>Mental Energy</h1>
+
+                <button id="themeToggleBtn" class="theme-btn" aria-label="Toggle theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+
+                <button id="menuBtn" class="menu-btn" aria-label="Open menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="4" y1="18" x2="20" y2="18"></line>
+                    </svg>
+                </button>
+            </header>
+
+            <nav class="date-nav">
+                <button class="nav-arrow" id="prevDay" aria-label="Previous day">‹</button>
+
+                <div class="date-center">
+                    <div class="date-text" id="currentDate"></div>
+                    <button class="today-btn" id="todayBtn">Today</button>
+                </div>
+
+                <button class="nav-arrow" id="nextDay" aria-label="Next day">›</button>
+            </nav>
+
+            <div class="scale-bar">
+                <div class="scale-content">
+                    <span class="scale-label">Very Low</span>
+
+                    <div class="scale-track">
+                        <span class="seg s1"></span>
+                        <span class="seg s2"></span>
+                        <span class="seg s3"></span>
+                        <span class="seg s4"></span>
+                        <span class="seg s5"></span>
+                    </div>
+
+                    <span class="scale-label">Peak</span>
+                </div>
+
+                <div class="scale-divider"></div>
+            </div>
+        </div>
+
+        <div id="summaryMenu" class="summary-menu">
+            <h3>Menu</h3>
+
+            <ul>
+                <li data-action="Day">Day Summary</li>
+                <li data-action="Week">Week Summary</li>
+                <li data-action="Month">Month Summary</li>
+                <li data-action="Year">Year Summary</li>
+                <li data-action="Custom">Custom Summary</li>
+            </ul>
+
+            <hr class="menu-divider">
+
+            <ul>
+                <li data-action="Export">Export Data</li>
+                <li data-action="Import">Import Data</li>
+            </ul>
+
+            <hr class="menu-divider">
+
+            <ul>
+                <li data-action="Account" id="accountMenuItem">Account / Sync</li>
+                <li data-action="Guide">Guide / Help</li>
+            </ul>
+
+            <input
+                type="file"
+                id="importFileInput"
+                style="display: none;"
+                accept=".json,application/json"
+            >
+        </div>
+
+        <div id="energyToast" class="toast hidden">Normal</div>
+
+        <div class="timeline-wrapper" id="timelineWrapper">
+            <div class="hours-list" id="hoursList"></div>
+        </div>
+    </div>
+
+    <!-- Account / Sync Modal -->
+    <div id="accountModal" class="summary-modal">
+        <div class="summary-content account-content">
+            <header class="summary-header">
+                <div class="summary-header-titles">
+                    <h2>Account / Sync</h2>
+                    <div id="accountStatus" class="summary-subtitle">Checking...</div>
+                </div>
+
+                <button id="closeAccount" class="close-btn">×</button>
+            </header>
+
+            <div class="summary-body">
+                <div id="accountSignedOut">
+                    <p class="account-note">
+                        Cloud sync is optional. Your local data continues to work offline.
+                    </p>
+
+                    <div class="form-group">
+                        <label for="accountEmail">Email</label>
+                        <input
+                            id="accountEmail"
+                            class="form-input"
+                            type="email"
+                            autocomplete="email"
+                            placeholder="you@example.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accountPassword">Password</label>
+                        <input
+                            id="accountPassword"
+                            class="form-input"
+                            type="password"
+                            autocomplete="current-password"
+                            placeholder="At least 6 characters"
+                        >
+                    </div>
+
+                    <div class="account-actions">
+                        <button class="confirm-btn" id="signInBtn">Sign In</button>
+                        <button class="secondary-btn" id="signUpBtn">Create Account</button>
+                    </div>
+
+                    <p id="accountMessage" class="account-message"></p>
+                </div>
+
+                <div id="accountSignedIn" style="display:none">
+                    <p class="account-note">
+                        Signed in as <strong id="accountEmailDisplay"></strong>
+                    </p>
+
+                    <p id="lastSyncDisplay" class="account-note"></p>
+
+                    <div class="account-actions">
+                        <button class="confirm-btn" id="syncNowBtn">Sync Now</button>
+                        <button class="secondary-btn" id="signOutBtn">Sign Out</button>
+                    </div>
+
+                    <p id="syncMessage" class="account-message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Modal -->
+    <div id="summaryModal" class="summary-modal">
+        <div class="summary-content">
+            <header class="summary-header">
+                <div class="summary-header-titles">
+                    <h2 id="summaryTitle">Summary</h2>
+
+                    <div class="summary-subtitle-row">
+                        <button
+                            class="summary-nav-arrow"
+                            id="prevSummaryRange"
+                            aria-label="Previous range"
+                        >‹</button>
+
+                        <span id="summarySubtitle" class="summary-subtitle"></span>
+
+                        <button
+                            class="summary-nav-arrow"
+                            id="nextSummaryRange"
+                            aria-label="Next range"
+                        >›</button>
+                    </div>
+                </div>
+
+                <button id="closeSummary" class="close-btn">×</button>
+            </header>
+
+            <div id="summaryBody" class="summary-body">
+                <!-- Layout injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="cloud-config.js"></script>
+    <script src="cloud.js"></script>
+    <script src="graph.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

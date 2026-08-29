@@ -1,0 +1,1050 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* BASE DARK THEME */
+:root {
+    --bg: #12131A;
+    --card: #181922;
+    --card-hover: #202130;
+    --border: #292A38;
+
+    --text: #ffffff;
+    --muted: #8b8b9f;
+    --accent: #38bdf8;
+
+    --r1: #FF4D55;
+    --r2: #FF914D;
+    --r3: #FFD84D;
+    --r4: #FFB52E;
+    --r5: #20E879;
+
+    --future-opacity: 0.35;
+}
+
+/* LIGHT THEME */
+[data-theme="light"] {
+    --bg: #e2e8f0;
+    --card: #f8fafc;
+    --card-hover: #f1f5f9;
+    --border: #cbd5e1;
+
+    --text: #334155;
+    --muted: #64748b;
+    --accent: #0284c7;
+
+    --future-opacity: 0.45;
+}
+
+html,
+body {
+    overscroll-behavior: none;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background 0.3s, color 0.3s;
+}
+
+.app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 16px 40px 16px;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 50;
+    padding: 16px 16px 0 16px;
+    margin: 0 -16px 12px -16px;
+    transition: background 0.3s;
+}
+
+/* Topbar */
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.logo {
+    width: 28px;
+    height: 28px;
+}
+
+.topbar h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+}
+
+.theme-btn {
+    margin-left: auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    z-index: 200;
+}
+
+.theme-btn:hover {
+    background: var(--card-hover);
+    color: var(--accent);
+}
+
+.theme-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.menu-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    z-index: 200;
+}
+
+.menu-btn:hover {
+    background: var(--card-hover);
+    color: var(--accent);
+}
+
+.menu-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.sun-icon {
+    display: none;
+}
+
+.moon-icon {
+    display: block;
+}
+
+[data-theme="light"] .sun-icon {
+    display: block;
+}
+
+[data-theme="light"] .moon-icon {
+    display: none;
+}
+
+/* Slide-out Menu */
+.summary-menu {
+    position: fixed;
+    top: 70px;
+    right: -250px;
+    width: 200px;
+    background: var(--card-hover);
+    border-radius: 16px 0 0 16px;
+    box-shadow: -4px 4px 20px rgba(0,0,0,0.5);
+    transition:
+        right 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
+        background 0.3s;
+    z-index: 100;
+    padding: 20px;
+    border-left: 1px solid var(--border);
+}
+
+[data-theme="light"] .summary-menu {
+    box-shadow: -4px 4px 20px rgba(0,0,0,0.1);
+}
+
+.summary-menu.open {
+    right: 0;
+}
+
+.summary-menu h3 {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.summary-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.summary-menu li {
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    color: var(--text);
+    transition: color 0.2s;
+}
+
+.summary-menu li:hover {
+    color: var(--accent);
+}
+
+.menu-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+    border: none;
+}
+
+/* Navigation */
+.date-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    transition: background 0.3s;
+}
+
+[data-theme="light"] .date-nav {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.nav-arrow {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.4rem;
+    padding: 4px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.nav-arrow:hover {
+    background: var(--card-hover);
+}
+
+.date-center {
+    text-align: center;
+    flex: 1;
+}
+
+.date-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.today-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 0.75rem;
+    cursor: pointer;
+    margin-top: 2px;
+    font-weight: 600;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    padding: 8px 20px;
+    border-radius: 20px;
+    color: #12131A;
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+[data-theme="light"] .toast {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.v1 {
+    background: var(--r1);
+    color: #fff;
+}
+
+.toast.v2 {
+    background: var(--r2);
+}
+
+.toast.v3 {
+    background: var(--r3);
+}
+
+.toast.v4 {
+    background: var(--r4);
+}
+
+.toast.v5 {
+    background: var(--r5);
+    color: #12131A;
+}
+
+.toast.neutral {
+    background: var(--text);
+    color: var(--bg);
+}
+
+/* Scale Bar & Divider */
+.scale-bar {
+    position: relative;
+    background: transparent;
+    padding-bottom: 12px;
+}
+
+.scale-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--card);
+    border-radius: 12px;
+    transition: background 0.3s;
+}
+
+.scale-divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+[data-theme="light"] .scale-divider {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.scale-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.scale-track {
+    flex: 1;
+    display: flex;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.scale-track .seg {
+    flex: 1;
+}
+
+.seg.s1 {
+    background: var(--r1);
+}
+
+.seg.s2 {
+    background: var(--r2);
+}
+
+.seg.s3 {
+    background: var(--r3);
+}
+
+.seg.s4 {
+    background: var(--r4);
+}
+
+.seg.s5 {
+    background: var(--r5);
+}
+
+/* =========================================================
+   HOURS LIST
+   ========================================================= */
+
+.hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 40px;
+}
+
+/*
+ * Normal row:
+ *
+ * TIME | BAR | VALUE
+ *
+ * Only an editable hour receives the fourth lock column.
+ */
+.hour-row {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) 28px;
+    align-items: center;
+    gap: 12px;
+
+    background: var(--card);
+    border-radius: 12px;
+    padding: 14px;
+
+    border: 1.5px solid transparent;
+
+    transition:
+        background 0.3s,
+        border 0.3s,
+        opacity 0.2s;
+
+    will-change: transform, opacity;
+}
+
+/*
+ * Current hour:
+ * This is the visually highlighted rectangle from the design.
+ */
+.hour-row.current {
+    border-color: var(--row-color, var(--accent));
+    background: var(--card-hover);
+}
+
+/*
+ * Rolling 24-hour editing window:
+ *
+ * TIME | BAR | VALUE | LOCK
+ *
+ * This class is NOT applied to future hours or expired past hours.
+ */
+.hour-row.editable-window {
+    grid-template-columns: 56px minmax(0, 1fr) 28px 34px;
+}
+
+/*
+ * Future hours:
+ * They remain the ordinary future appearance and have NO lock icon.
+ */
+.hour-row.future {
+    opacity: var(--future-opacity);
+    cursor: not-allowed;
+}
+
+.hour-row.future .hour-label {
+    color: var(--muted);
+}
+
+/*
+ * Past hours that have crossed the 24-hour boundary.
+ *
+ * They are simply normal frozen past rows.
+ * There is intentionally no lock column and no lock icon.
+ */
+.hour-row.expired-past {
+    cursor: default;
+}
+
+/*
+ * A manually locked hour remains visually normal except that
+ * its controls are frozen.
+ */
+.hour-row.manually-locked {
+    cursor: default;
+}
+
+.hour-row.rated {
+    background: var(--card-hover);
+}
+
+.hour-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hour-label .sub {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+/* =========================================================
+   SLIDERS
+   ========================================================= */
+
+.energy-slider {
+    -webkit-appearance: none;
+    appearance: none;
+
+    width: 100%;
+    height: 10px;
+
+    border-radius: 5px;
+    background: var(--border);
+
+    outline: none;
+    cursor: pointer;
+
+    /*
+     * Preserve vertical scrolling on touch devices.
+     * A manually locked slider is disabled by JS as well.
+     */
+    touch-action: pan-y;
+}
+
+.energy-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    background: var(--text);
+
+    cursor: pointer;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+
+    transition: transform 0.2s;
+}
+
+.energy-slider::-webkit-slider-thumb:active {
+    transform: scale(1.2);
+}
+
+.energy-slider:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.hour-value {
+    font-size: 1rem;
+    font-weight: 800;
+    text-align: right;
+    min-width: 20px;
+}
+
+.hour-value.empty {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+/* =========================================================
+   LOCK BUTTON
+   ========================================================= */
+
+/*
+ * The lock is part of the row's grid.
+ *
+ * It is NOT absolutely positioned.
+ * This prevents it from covering the value or slider.
+ */
+.hour-lock-btn {
+    width: 34px;
+    height: 34px;
+
+    padding: 5px;
+    margin: 0;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+    color: var(--text);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+
+    /*
+     * Tapping the lock itself is a button action.
+     * Vertical scrolling over the slider remains pan-y.
+     */
+    touch-action: manipulation;
+
+    flex-shrink: 0;
+}
+
+.hour-lock-btn:hover {
+    background: var(--border);
+}
+
+.hour-lock-btn:active {
+    transform: scale(0.9);
+}
+
+/*
+ * Open lock = editable.
+ */
+.hour-lock-btn.is-unlocked {
+    color: var(--muted);
+    opacity: 0.9;
+}
+
+/*
+ * Closed lock = manually frozen.
+ */
+.hour-lock-btn.is-locked {
+    color: var(--text);
+    opacity: 1;
+}
+
+.hour-lock-btn .lock-icon {
+    width: 22px;
+    height: 22px;
+    display: block;
+    pointer-events: none;
+}
+
+/* Small screens */
+@media (max-width: 380px) {
+    .hour-row {
+        grid-template-columns: 52px minmax(0, 1fr) 24px;
+        gap: 9px;
+        padding: 12px;
+    }
+
+    .hour-row.editable-window {
+        grid-template-columns: 52px minmax(0, 1fr) 24px 30px;
+    }
+
+    .hour-lock-btn {
+        width: 30px;
+        height: 30px;
+        padding: 4px;
+    }
+
+    .hour-lock-btn .lock-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Summary Modal */
+.summary-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 300;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.3s;
+}
+
+.summary-modal.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.summary-content {
+    width: 100%;
+    max-width: 480px;
+
+    background: var(--bg);
+
+    border-radius: 24px 24px 0 0;
+    border-top: 1px solid var(--border);
+
+    padding: 24px;
+
+    transform: translateY(100%);
+
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.3s;
+
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.summary-modal.open .summary-content {
+    transform: translateY(0);
+}
+
+/* Summary Header */
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.summary-header-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.summary-header h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.summary-subtitle-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.summary-subtitle {
+    font-size: 0.95rem;
+    color: var(--accent);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.summary-nav-arrow {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 6px;
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background 0.2s, color 0.2s;
+}
+
+.summary-nav-arrow:hover {
+    background: var(--card-hover);
+    color: var(--accent);
+}
+
+.close-btn {
+    background: var(--card);
+    border: none;
+    color: var(--text);
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 16px;
+
+    font-size: 1.2rem;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+}
+
+/* Base Stats */
+.dummy-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.stat-box {
+    flex: 1;
+    background: var(--card);
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+
+    border: 1px solid var(--border);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    transition: background 0.3s;
+}
+
+.stat-box span {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.stat-box strong {
+    font-size: 0.95rem;
+    color: var(--accent);
+    line-height: 1.2;
+    word-break: break-word;
+}
+
+.stat-box.avg strong {
+    font-size: 1.3rem;
+}
+
+/* The Graph */
+.graph-container {
+    height: 200px;
+
+    background: var(--card-hover);
+    border-radius: 12px;
+
+    position: relative;
+
+    border: 1px solid var(--border);
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background 0.3s;
+}
+
+.empty-graph {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.graph-pt {
+    transition: opacity 0.2s;
+    cursor: pointer;
+    outline: none;
+}
+
+.graph-pt:hover,
+.graph-pt:active {
+    opacity: 0.7;
+}
+
+.graph-tooltip {
+    position: absolute;
+
+    background: var(--card);
+    color: var(--text);
+
+    padding: 6px 10px;
+    border-radius: 8px;
+
+    font-size: 0.75rem;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+
+    z-index: 10;
+
+    text-align: center;
+
+    border: 1px solid var(--border);
+
+    white-space: nowrap;
+
+    transition:
+        opacity 0.2s,
+        top 0.1s,
+        left 0.1s,
+        background 0.3s,
+        color 0.3s;
+
+    transform: translate(-50%, -100%);
+    margin-top: -10px;
+}
+
+[data-theme="light"] .graph-tooltip {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Custom Builder Styles */
+.custom-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: background 0.3s;
+}
+
+.form-group h4 {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    color: var(--text);
+    font-weight: 700;
+}
+
+.form-select,
+.form-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    margin-bottom: 4px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.confirm-btn {
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: opacity 0.2s;
+}
+
+.confirm-btn:active {
+    opacity: 0.7;
+}
+
+/* Custom Results Output */
+.custom-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.custom-stat-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    transition: background 0.3s;
+}
+
+.custom-stat-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.custom-stat-value {
+    font-size: 1.1rem;
+    color: var(--accent);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* Account / cloud sync additions */
+.account-content {
+    max-width: 520px;
+}
+
+.account-note {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.account-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.secondary-btn {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    border-radius: 10px;
+    padding: 11px 16px;
+    font: inherit;
+    cursor: pointer;
+}
+
+.account-message {
+    min-height: 1.3em;
+    color: var(--muted);
+    margin-top: 12px;
+}
